@@ -22,17 +22,329 @@
   <div class="container">
     <!-- Timeblocks go here -->
     <div class="time-block">
-
       <div class="row">
-        <button type="button" class="btn btn-primary"></button>
+
+        <div class="form-group col-xs-3">
+
+          <div class=hour id="hour-1"></div>
+          <div class=hour id="hour-2"></div>
+          <div class=hour id="hour-3"></div>
+          <div class=hour id="hour-4"></div>
+          <div class=hour id="hour-5"></div>
+          <div class=hour id="hour-6"></div>
+          <div class=hour id="hour-7"></div>
+          <div class=hour id="hour-8"></div>
+          <div class=hour id="hour-9"></div>
+
+        </div>
+
+        <div class="form-group col-xs-3">
+          <div class=blank id="blank-1"></div>
+          <div class=blank id="blank-2"></div>
+          <div class=blank id="blank-3"></div>
+          <div class=blank id="blank-4"></div>
+          <div class=blank id="blank-5"></div>
+          <div class=blank id="blank-6"></div>
+          <div class=blank id="blank-7"></div>
+          <div class=blank id="blank-8"></div>
+          <div class=blank id="blank-9"></div>
+        </div>
+
+        <div class="form-group col-xs-3">
+          <div class=saveBtn id="save-1"></div>
+          <div class=saveBtn id="save-2"></div>
+          <div class=saveBtn id="save-3"></div>
+          <div class=saveBtn id="save-4"></div>
+          <div class=saveBtn id="save-5"></div>
+          <div class=saveBtn id="save-6"></div>
+          <div class=saveBtn id="save-7"></div>
+          <div class=saveBtn id="save-8"></div>
+          <div class=saveBtn id="save-9"></div>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <script src="./script.js"></script>
+
+
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script type="text/javascript">
+    var nMoment = moment().format('MMMM Do YYYY, h:mm:ss a');
+    var display = $('#currentDay');
+    display.text(nMoment);
+    //console.log(display);
+    console.log(nMoment)
+    var hr = 0;
+    var save1, save2, save3, save4, save5, save6, save7, save8, save9;
+
+    for (var i = 1; i < 10; i++ , hr++) {
+      if (hr <= 12) {
+        var time = $('<button type="button" class="btn btn-lg btn-block">' + hr + "AM" + '</button>');
+        if (hr == 12) {
+          var time = $('<button type="button" class="btn btn-lg btn-block">' + hr + "PM" + '</button>');
+        }
+        var blank = $('<button type="button" class="btn btn-lg btn-block"></button>');
+        var save = $('<button type="button" class="btn btn-lg btn-block">save</button>');
+        var timeTemp = "#hour-" + i;
+        $(timeTemp).append(time);
+
+        var blankTemp = "#blank-" + i;
+        $(blankTemp).append(blank);
+
+        var saveTemp = "#save-" + i;
+        $(saveTemp).append(save);
+      }
+      if (hr > 12) {
+        var temphr = hr - 12
+        var time = $('<button type="button" class="btn btn-lg btn-block">' + temphr + "PM" + '</button>');
+        var blank = $('<button type="button" class="btn btn-lg btn-block"></button>');
+        var save = $('<button type="button" class="btn btn-lg btn-block">save</button>');
+
+        var timeTemp = "#hour-" + i;
+        $(timeTemp).append(time);
+
+        var blankTemp = "#blank-" + i;
+        $(blankTemp).append(blank);
+
+        var saveTemp = "#save-" + i;
+        $(saveTemp).append(save);
+      }
+    }
+
+    let m = moment();
+
+    let h = m.hour();
+
+    //stringHour = h.toString()
+    stringHour = 10
+    console.log(stringHour)
+
+
+
+    // loading any data from local storage
+
+    $("#blank-1").append(localStorage.getItem('9am'));
+    $("#blank-2").append(localStorage.getItem('10am'));
+    $("#blank-3").append(localStorage.getItem('11am'));
+    $("#blank-4").append(localStorage.getItem('12pm'));
+    $("#blank-5").append(localStorage.getItem('1pm'));
+    $("#blank-6").append(localStorage.getItem('2pm'));
+    $("#blank-7").append(localStorage.getItem('3pm'));
+    $("#blank-8").append(localStorage.getItem('4pm'));
+    $("#blank-9").append(localStorage.getItem('5pm'));
+
+    if (localStorage.getItem('9am') == "undefined") {
+      $("#blank-1").empty();
+    }
+
+    if (localStorage.getItem('10am') == "undefined") {
+      $("#blank-2").empty();
+    }
+
+    if (localStorage.getItem('11am') == "undefined") {
+      $("#blank-3").empty();
+    }
+
+    if (localStorage.getItem('12pm') == "undefined") {
+      $("#blank-4").empty();
+    }
+
+    if (localStorage.getItem('1pm') == "undefined") {
+      $("#blank-5").empty();
+    }
+
+    if (localStorage.getItem('2pm') == "undefined") {
+      $("#blank-6").empty();
+    }
+
+    if (localStorage.getItem('3pm') == "undefined") {
+      $("#blank-7").empty();
+    }
+
+    if (localStorage.getItem('4pm') == "undefined") {
+      $("#blank-8").empty();
+    }
+
+    if (localStorage.getItem('5pm') == "undefined") {
+      $("#blank-9").empty();
+    }
+    //showing past time in grey
+
+    for (var i = 0; i <= (stringHour - 9); i++) {
+      var blank = $('<button type="button" class="btn btn-lg btn-block">past</button>');
+      var blankTemp = "#blank-" + i;
+      $(blankTemp).toggleClass('past');
+    }
+
+    // shwoing present time in red
+
+    var presentBlank = $('<button type="button" class="buttonText btn btn-lg btn-block">Current Time</button>');
+
+
+    var presentTemp = "#blank-" + (stringHour - 8);
+    $(presentTemp).append(presentBlank);
+    $(presentTemp).toggleClass('present');
+
+    for (var i = 9; i > (stringHour - 8); i--) {
+      var futureBlank = $('<button type="button" class="buttonText btn btn-lg btn-block"></button>');
+      var futureTemp = "#blank-" + i;
+      $(futureTemp).toggleClass('future');
+    }
+
+    $("#blank-1").on("click", function () {
+      if (1 >= stringHour - 7) {
+        $("#blank-1").empty();
+        var eventText = prompt("Please enter event text for 9AM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-1").append(blank);
+          save1 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+
+        }
+      }
+    });
+
+    $("#blank-2").on("click", function () {
+      if (2 >= stringHour - 7) {
+        $("#blank-2").empty();
+        var eventText = prompt("Please enter event text for 10AM");
+        if (eventText) {
+          blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-2").replace(blank);
+          save2 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+      }
+    });
+
+    $("#blank-3").on("click", function () {
+      if (3 >= stringHour - 7) {
+        $("#blank-3").empty();
+        var eventText = prompt("Please enter event text for 11AM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-3").append(blank);
+          save3 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+
+      }
+    });
+
+    $("#blank-4").on("click", function () {
+      if (4 >= stringHour - 7) {
+        $("#blank-4").empty();
+        var eventText = prompt("Please enter event text for 12PM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-4").append(blank);
+          save4 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+      }
+    });
+
+    $("#blank-5").on("click", function () {
+      if (5 >= stringHour - 7) {
+        $("#blank-5").empty();
+        var eventText = prompt("Please enter event text for 1PM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-5").append(blank);
+          save5 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+      }
+    });
+
+    $("#blank-6").on("click", function () {
+      if (6 >= stringHour - 7) {
+        $("#blank-6").empty();
+        var eventText = prompt("Please enter event text for 2PM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-6").append(blank);
+          save6 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+      }
+    });
+
+    $("#blank-7").on("click", function () {
+      if (7 >= stringHour - 7) {
+        $("#blank-7").empty();
+        var eventText = prompt("Please enter event text for 3PM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-7").append(blank);
+          save7 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+      }
+    });
+
+    $("#blank-8").on("click", function () {
+      if (8 >= stringHour - 7) {
+        $("#blank-8").empty();
+        var eventText = prompt("Please enter event text for 4PM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-8").append(blank);
+          save8 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+      }
+    });
+
+    $("#blank-9").on("click", function () {
+      if (9 >= stringHour - 7) {
+        $("#blank-9").empty();
+        var eventText = prompt("Please enter event text for 5PM");
+        if (eventText) {
+          var blank = $('<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>');
+          $("#blank-9").append(blank);
+          save9 = '<button type="button" class="buttonText btn btn-lg btn-block">' + eventText + '</button>';
+        }
+      }
+    });
+
+
+    $("#save-1").on("click", function () {
+      localStorage.setItem('9am', save1);
+    });
+
+    $("#save-2").on("click", function () {
+      if (save2 == undefined) {
+        console.log("SDADSADA");
+      }
+      localStorage.setItem('10am', save2);
+    });
+
+    $("#save-3").on("click", function () {
+      localStorage.setItem('11am', save3);
+    });
+
+    $("#save-4").on("click", function () {
+      localStorage.setItem('12pm', save4);
+    });
+
+    $("#save-5").on("click", function () {
+      localStorage.setItem('1pm', save5);
+    });
+
+    $("#save-6").on("click", function () {
+      localStorage.setItem('2pm', save6);
+    });
+
+    $("#save-7").on("click", function () {
+      localStorage.setItem('3pm', save7);
+    });
+
+    $("#save-8").on("click", function () {
+      localStorage.setItem('4pm', save8);
+    });
+
+    $("#save-9").on("click", function () {
+      localStorage.setItem('5pm', save9);
+    });
+
+
+  </script>
 </body>
 
 </html>
