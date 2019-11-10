@@ -76,7 +76,7 @@
     display.text(nMoment);
     //console.log(display);
     console.log(nMoment)
-    var hr = 0;
+    var hr = 9;
     var save1, save2, save3, save4, save5, save6, save7, save8, save9;
 
     for (var i = 1; i < 10; i++ , hr++) {
@@ -117,11 +117,32 @@
 
     let h = m.hour();
 
-    //stringHour = h.toString()
-    stringHour = 10
+    stringHour = h.toString()
+
     console.log(stringHour)
 
+    //showing past time in grey
 
+    for (var i = 0; i <= (stringHour - 9); i++) {
+      var blank = $('<button type="button" class="btn btn-lg btn-block">past</button>');
+      var blankTemp = "#blank-" + i;
+      $(blankTemp).toggleClass('past');
+    }
+
+    // shwoing present time in red
+
+    var presentBlank = $('<button type="button" class="buttonText btn btn-lg btn-block">Current Time</button>');
+
+
+    var presentTemp = "#blank-" + (stringHour - 8);
+    $(presentTemp).append(presentBlank);
+    $(presentTemp).toggleClass('present');
+
+    for (var i = 9; i > (stringHour - 8); i--) {
+      var futureBlank = $('<button type="button" class="buttonText btn btn-lg btn-block"></button>');
+      var futureTemp = "#blank-" + i;
+      $(futureTemp).toggleClass('future');
+    }
 
     // loading any data from local storage
 
@@ -170,28 +191,7 @@
     if (localStorage.getItem('5pm') == "undefined") {
       $("#blank-9").empty();
     }
-    //showing past time in grey
 
-    for (var i = 0; i <= (stringHour - 9); i++) {
-      var blank = $('<button type="button" class="btn btn-lg btn-block">past</button>');
-      var blankTemp = "#blank-" + i;
-      $(blankTemp).toggleClass('past');
-    }
-
-    // shwoing present time in red
-
-    var presentBlank = $('<button type="button" class="buttonText btn btn-lg btn-block">Current Time</button>');
-
-
-    var presentTemp = "#blank-" + (stringHour - 8);
-    $(presentTemp).append(presentBlank);
-    $(presentTemp).toggleClass('present');
-
-    for (var i = 9; i > (stringHour - 8); i--) {
-      var futureBlank = $('<button type="button" class="buttonText btn btn-lg btn-block"></button>');
-      var futureTemp = "#blank-" + i;
-      $(futureTemp).toggleClass('future');
-    }
 
     $("#blank-1").on("click", function () {
       if (1 >= stringHour - 7) {
